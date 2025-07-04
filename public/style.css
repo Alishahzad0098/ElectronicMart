@@ -1,0 +1,233 @@
+/* Hover effect for nav links */
+.navbar .nav-link:hover,
+.navbar .dropdown-toggle:hover {
+  color: rgb(255, 153, 0) !important;
+}
+
+/* Hover effect for dropdown items */
+.dropdown-item:hover {
+  background-color: rgb(76, 76, 184);
+  color: rgb(255, 153, 0) !important;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: black;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+
+}
+
+@keyframes scrollUp {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.scroll-container {
+  /* Adjust height as needed */
+  border: 1px solid #eee;
+  /* optional border */
+}
+
+.scroll-content a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.price-mar {
+  color: #d32f2f;
+  /* red color for price */
+
+  font-weight: bold;
+}
+
+/* Product Card Container */
+.product-card-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Card Styling */
+.card {
+  width: 18rem;
+  overflow: hidden;
+  /* Ensures button animation stays contained */
+  position: relative;
+  border: 1px solid #eee;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Container */
+.card-img-container {
+  position: relative;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card-img-top {
+  width: 50%;
+  transition: transform 0.3s ease;
+}
+
+/* Quick View Button */
+.quick-view-btn {
+  position: absolute;
+  top: -50px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(42, 42, 109, 0.9);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s ease-out;
+}
+
+.card-img-container:hover .quick-view-btn {
+  top: 0;
+}
+
+/* Add to Cart Button */
+.add-to-cart-btn {
+  background-color: rgb(42, 42, 109);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background-color: rgb(60, 60, 150);
+  transform: translateY(-2px);
+}
+
+.bgtrans {
+  background-image: url("asset/carousel/banner.jpg");
+  background-repeat: repeat-y;
+  background-position: center;
+  /* background-size: cover; */
+}
+
+footer {
+  background-color: rgb(42, 42, 109);
+  color: wheat;
+
+}
+
+ul li a {
+  text-decoration: none;
+  margin: 0px;
+  color: white;
+
+}
+
+.ab-top {
+  background-image: url("asset/carousel/banner.jpg");
+  background-repeat: repeat-y;
+  background-position: center;
+  /* background-size: cover; */
+}
+
+.number-text {
+  font-size: 300px;
+  font-weight: bold;
+  background: url('asset/carousel/banner.jpg') no-repeat center center;
+  background-size: cover;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  margin: 0;
+}
+
+.years-text {
+  font-size: 50px;
+  font-weight: bold;
+  color: orange;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+.comments {
+  background-image: url("asset/carousel/batman_coffee_superhero_morning_routine_coffee_aroma-wallpaper-1600x900.jpg");
+  background-repeat: repeat-y;
+  background-position: center;
+}
+
+/* From Uiverse.io by satyamchaudharydev */
+.button {
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  padding-block: 0.5rem;
+  padding-inline: 1.25rem;
+  background-color: rgb(255, 153, 0);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffff;
+  gap: 10px;
+  font-weight: bold;
+  border: 3px solid #ffffff4d;
+  outline: none;
+  overflow: hidden;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease-in-out;
+}
+
+.button:hover {
+  transform: scale(1.05);
+  border-color: #fff9;
+}
+
+.button:hover .icon {
+  transform: translate(4px);
+}
+
+.button:hover::before {
+  animation: shine 1.5s ease-out infinite;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100%;
+  background-image: linear-gradient(120deg,
+      rgba(255, 255, 255, 0) 30%,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0) 70%);
+  top: 0;
+  left: -100px;
+  opacity: 0.6;
+}
+
+.carousel-inner {
+  transition: transform 0.6s ease-in-out;
+  /* Faster/slower than default */
+}
