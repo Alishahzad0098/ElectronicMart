@@ -8,8 +8,10 @@ class Products extends Model
 { // In your Products model
     protected $fillable = ['name', 'description', 'categories', 'price', 'images'];
 
-    protected $casts = [
-        'images' => 'array',
-    ];
+ protected $casts = [
+    'images' => 'array',
+];
+
+
 
 }

@@ -24,12 +24,12 @@
             </h5>
 
             <div class="d-flex flex-wrap align-items-center" style="margin-right: 10px;">
-                <a href="#" class="text-secondary text-decoration-none me-3">
+                <a href="{{ route('loginpage') }}" class="text-secondary text-decoration-none me-3">
                     <h6 class="mb-0">
                         <i class="fa-solid fa-right-to-bracket me-1"></i> Login
                     </h6>
                 </a>
-                <a href="#" class="text-secondary text-decoration-none">
+                <a href="{{ route('view') }}" class="text-secondary text-decoration-none">
                     <h6 class="mb-0">
                         <i class="fa-solid fa-circle-user me-1"></i> Register
                     </h6>
@@ -89,10 +89,10 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active text-white" aria-current="page" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Link</a>
+                        <a class="nav-link text-white" href="#">About</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="#">Contact</a>
@@ -103,19 +103,20 @@
     </nav>
     <!-- navbar end -->
 
-    <div id="carouselExampleFade" class="carousel slide carousel-fade" style="background-color: rgb(245, 245, 245);">
-        <div class="container"> 
-        <div class="carousel-inner ">
-            @foreach ($car as $products)
-                <div class="carousel-item active pt-5 d-flex">
-                    <img src="{{ asset('storage/'.$car->img) }}" class="d-block w-100" alt="...">
-                    <div class="text ps-4">
-                        <h5 style="font-size:30px; font-weight: 700;">{{ $car->name }}</h5>
-                        <button class="btn btn-outline-warning bg-warning text-white px-5 pt-3 pb-3 ">Shop Now</button>
+    <div id="carouselExampleFade" class="carousel slide carousel-fade d-" style="background-color: rgb(245, 245, 245);">
+        <div class="container">
+            <div class="carousel-inner ">
+                @foreach ($c1 as $products)
+                    <div class="carousel-item active pt-5 d-flex">
+                        <img src="{{ asset('images/' . $products->img) }}" class="d-block w-100" alt="Carousel Image">
+                        <div class="carousel-caption ps-4 mb-5 align-self-center">
+                            <h5 style="font-size:30px; font-weight: 700;">{{ $products->para }}</h5>
+                            <button class="btn btn-outline-warning bg-warning text-white px-5 pt-3 pb-3 ">Shop Now</button>
+                        </div>
                     </div>
-                </div>
+
+                @endforeach
             </div>
-             @endforeach
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"><i
@@ -362,24 +363,25 @@
             </div>
             <div class="col-lg-9">
                 <div class="row product-card-wrapper">
-                    @foreach ($products as $product)
+                    @foreach ($product as $products)
                         <div class="card text-center m-3" style="width: 18rem;">
                             <div class="card-img-container position-relative">
-                                @if (!empty($product->images) && is_array($product->images))
-                                    <img src="{{ asset('storage/' . $product->images[0]) }}" class="card-img-top"
-                                        alt="Product Image">
+                                @php
+                                    $images = json_decode($products->images, true); // decode JSON string to PHP array
+                                @endphp
+                                @if (!empty($images) && is_array($images))
+                                    <img src="{{ asset($images[0]) }}" class="card-img-top" alt="Product Image">
                                 @else
-                                    <img src="{{ asset('images/default.png') }}" class="card-img-top" alt="Default Image"> {{--
-                                    fallback --}}
+                                    <img src="{{ asset('images/default.png') }}" class="card-img-top" alt="Default Image">
                                 @endif
                                 <button class="quick-view-btn">Quick
                                     View</button>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">{{ $product->name }}</h5>
+                                <h5 class="card-title">{{ $products->name }}</h5>
                                 <p class="card-text">
-                                    <span class="item_price"><b>$200.00</b></span>
-                                    <del>$280.00</del>
+                                    <span class="item_price"><b>${{ $products->price }}</b></span>
+                                    <del>${{ $products->price+ 50 }}</del>
                                 </p>
                                 <a href="#" class="btn btn-primary add-to-cart-btn">Add To Cart</a>
                             </div>
@@ -576,6 +578,7 @@
                                 </li>
                             </ul>
                         </div>
+                        *
                     </div>
                 </div>
             </div>

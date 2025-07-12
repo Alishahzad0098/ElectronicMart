@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 use App\Models\Carousel;
 use Illuminate\Http\Request;
+use Illuminate\Session\Store;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -16,45 +17,22 @@ class CarouselController extends Controller
     function table()
     {
         $car = Carousel::all();
-        return view("carousel.carform",compact('car'));
+        return view("carousel.cartable",compact('car'));
+    }
+   public function store(Request $request)
+{ 
+    $c1 = new Carousel();
+    $image = $request->file("img");
+
+    if ($image) {
+        $imageName = time() . '_' . Str::random(5) . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images'), $imageName);
+        $c1->img = $imageName;
     }
 
+    $c1->para = $request->para;
+    $c1->save();
 
-public function store(Request $request)
-{
-    // Validate the request
-    $request->validate([
-        'img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'para' => 'required|string'
-    ]);
-
-    // Handle image upload
-    $imageData = [];
-    
-    if ($request->hasFile('img')) {
-        $image = $request->file('img');
-        $filename = Str::random(20) . '.' . $image->getClientOriginalExtension();
-        
-        // Store the image in storage/app/public/carousel
-        $path = $image->storeAs('public/carousel', $filename);
-        
-        // Create the public accessible URL
-        $imageData = [
-            'filename' => $filename,
-            'path' => 'storage/carousel/' . $filename,
-            'original_name' => $image->getClientOriginalName(),
-            'size' => $image->getSize(),
-            'mime_type' => $image->getMimeType()
-        ];
-    }
-$imagePath = $request->file('img')->store('carousel', 'public');
-
-    // Create new carousel item
-    Carousel::create([
-        'img' => $imagePath,
-        'para' => $request->para
-    ]);
-
-    return back()->with('success', 'Image uploaded successfully!');
+    return redirect()->back()->with('success', 'Carousel saved!');
 }
 }

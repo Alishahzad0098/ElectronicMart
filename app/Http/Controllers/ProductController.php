@@ -8,11 +8,15 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function welcome()
+    {
+        return view('welcome');
+    }
     function show()
     {
-        $products = Products::where('categories', 'computers')->get();
-        $car = Carousel::all();
-        return view('Home', compact('products','car'));
+        $product = Products::where('categories', 'computers')->get();
+        $c1 = Carousel::all();
+        return view('Home', compact('product', 'c1'));
     }
     function create()
     {
@@ -20,18 +24,28 @@ class ProductController extends Controller
     }
     public function store(Request $request)
     {
+        // dd($request);
 
         $imagePaths = [];
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $timestamp = now()->format('YmdHis');
-                $randomString = Str::random(5);
-                $extension = $image->getClientOriginalExtension();
-                $filename = $timestamp . '_' . $randomString . '.' . $extension;
+                if ($image->isValid()) {
+                    $timestamp = now()->format('YmdHis');
+                    $randomString = Str::random(5);
+                    $extension = $image->getClientOriginalExtension();
+                    $filename = $timestamp . '_' . $randomString . '.' . $extension;
 
-                $path = $image->storeAs('public/products', $filename);
-                $imagePaths[] = str_replace('public/', '', $path); // Remove 'public/' for web access
+                    // Correct storage path
+                    $destination = public_path('images/products'); // e.g. public/images/products
+
+                    if (!file_exists($destination)) {
+                        mkdir($destination, 0755, true); // create folder if not exists
+                    }
+
+                    $image->move($destination, $filename);
+                    $imagePaths[] = 'images/products/' . $filename;
+                }
             }
         }
 
@@ -40,11 +54,12 @@ class ProductController extends Controller
             'description' => $request->description,
             'categories' => $request->categories,
             'price' => $request->price,
-            'images' => json_encode($imagePaths), // Store as JSON
+            'images' => !empty($imagePaths) ? json_encode($imagePaths) : null,
         ]);
 
         return redirect()->route('table.product')->with('success', 'Product added successfully');
     }
+
 
     public function table()
     {

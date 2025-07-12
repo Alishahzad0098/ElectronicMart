@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('carousels', function (Blueprint $table) {
             $table->id();
-            $table->json('img');
+            $table->string('img')->nullable(false);  // 🚫 Fails if $image is null or not passed
             $table->string('para');
             $table->timestamps();
         });
