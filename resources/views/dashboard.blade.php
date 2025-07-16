@@ -154,6 +154,18 @@
             font-weight: 300;
             src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
         }
+
+        .dropdown-menu {
+            position: absolute;
+            left: 100%;
+            top: 0;
+            margin-top: 0;
+            z-index: 1000;
+        }
+
+        .nav-item.dropdown {
+            position: relative;
+        }
     </style>
 </head>
 
@@ -169,13 +181,30 @@
                 </a>
 
             </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-align-left fa-lg"></i>
-                    <span class="nav-text">
-                        Tables
-                    </span>
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" id="tablesDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-align-left fa-lg pt-2 ps-3"></i>
+                    <span class="nav-text ps-2">Tables</span>
+                    <i class="fa fa-angle-down "></i>
                 </a>
+                <ul class="dropdown-menu bg-black" aria-labelledby="tablesDropdown">
+                    <li>
+                        <a href="{{ route('table.product') }}" class="dropdown-item">
+                            <i class="fa fa-cube me-2"></i> Products Table
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('authtable') }}" class="dropdown-item">
+                            <i class="fa fa-users me-2"></i> Users Table
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('table.car') }}" class="dropdown-item">
+                            <i class="fa fa-shopping-cart me-2"></i> Orders Table
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li>
                 <a href="#">

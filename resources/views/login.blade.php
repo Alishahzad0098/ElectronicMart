@@ -162,7 +162,7 @@
 
 <body>
     <div class="form-back">
-        <div  class="container">
+        <div  class="container ms-auto me-auto py-5 mt-5" style="">
             <div class="heading">Sign In</div>
             <form method="POST" action="{{ route('login') }}" class="form">
                 @csrf
@@ -173,17 +173,6 @@
                 <input class="login-button" type="submit" value="Sign In">
 
             </form>
-            <!-- <form method="POST" action="{{ route('login') }}">
-                    @csrf
-
-                    <div class="mb-3">
-                        <input required="" class="input" type="email" name="email" id="email" placeholder="E-mail">
-                    </div>
-                    <div class="mb-3">
-                        <input required="" class="input" type="password" name="password" id="password">
-                    </div>
-                    <input class="login-button" type="submit" value="Sign In">
-                </form> -->
         </div>
         @if ($errors->any())
             <div class="alert text-danger">

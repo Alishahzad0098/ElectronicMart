@@ -383,11 +383,10 @@
                                     <span class="item_price"><b>${{ $products->price }}</b></span>
                                     <del>${{ $products->price+ 50 }}</del>
                                 </p>
-                                <a href="#" class="btn btn-primary add-to-cart-btn">Add To Cart</a>
+                                <a href="{{ route('add.to.cart') }}" class="btn btn-primary add-to-cart-btn">Add To Cart</a>
                             </div>
                         </div>
                     @endforeach
-
                 </div>
             </div>
         </div>
