@@ -18,22 +18,36 @@
 <body>
     <div class="container mt-2 text-secondary ">
         <div class="d-flex flex-wrap align-items-center justify-content-between px-2">
-
             <h5 class="mb-2 mb-md-0" style="margin-left: 10px;">
                 Welcome to Electronic Mart
             </h5>
 
             <div class="d-flex flex-wrap align-items-center" style="margin-right: 10px;">
-                <a href="{{ route('loginpage') }}" class="text-secondary text-decoration-none me-3">
-                    <h6 class="mb-0">
-                        <i class="fa-solid fa-right-to-bracket me-1"></i> Login
-                    </h6>
-                </a>
-                <a href="{{ route('view') }}" class="text-secondary text-decoration-none">
-                    <h6 class="mb-0">
-                        <i class="fa-solid fa-circle-user me-1"></i> Register
-                    </h6>
-                </a>
+                {{-- Show if user is NOT logged in --}}
+                @guest
+                    <a href="{{ route('loginpage') }}" class="text-secondary text-decoration-none me-3">
+                        <h6 class="mb-0">
+                            <i class="fa-solid fa-right-to-bracket me-1"></i> Login
+                        </h6>
+                    </a>
+                    <a href="{{ route('view') }}" class="text-secondary text-decoration-none">
+                        <h6 class="mb-0">
+                            <i class="fa-solid fa-circle-user me-1"></i> Register
+                        </h6>
+                    </a>
+                @endguest
+
+                {{-- Show if user IS logged in --}}
+                @auth
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-link text-secondary text-decoration-none p-0">
+                            <h6 class="mb-0">
+                                <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+                            </h6>
+                        </button>
+                    </form>
+                @endauth
             </div>
 
         </div>
@@ -142,48 +156,37 @@
                 <h3>CUSTOMER REVIEW</h3>
                 <ul>
                     <li>
-                        <a href="#" class="text-black text-decoration-none">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span>5.0</span>
-                        </a>
+                        <input type="checkbox" class="checked" id="rating5">
+                        <label for="rating5">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i> 5.0
+                        </label>
                     </li>
                     <li>
-                        <a href="#" class="text-black text-decoration-none">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span>4.0</span>
-                        </a>
+                        <input type="checkbox" class="checked" id="rating4">
+                        <label for="rating4">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i> 4.0
+                        </label>
                     </li>
                     <li>
-                        <a href="#" class="text-black text-decoration-none">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half"></i>
-                            <span>3.5</span>
-                        </a>
+                        <input type="checkbox" class="checked" id="rating3_5">
+                        <label for="rating3_5">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            <i class="fas fa-star-half"></i> 3.5
+                        </label>
                     </li>
                     <li>
-                        <a href="#" class="text-black text-decoration-none">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span>3.0</span>
-                        </a>
+                        <input type="checkbox" class="checked" id="rating3">
+                        <label for="rating3">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> 3.0
+                        </label>
                     </li>
                     <li>
-                        <a href="#" class="text-black text-decoration-none">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half"></i>
-                            <span>2.5</span>
-                        </a>
+                        <input type="checkbox" class="checked" id="rating2_5">
+                        <label for="rating2_5">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half"></i> 2.5
+                        </label>
                     </li>
                 </ul>
                 <h3 class="mt-3">PRICES</h3>
@@ -237,8 +240,8 @@
                 <h3>ELECTRONICS</h3>
                 <ul>
                     <li>
-                        <input type="checkbox" class="checked">
-                        <span class="span">Accessories</span>
+                        <input type="checkbox" class="checked" id="accessories">
+                        <label for="accessories">Accessories</label>
                     </li>
                     <li>
                         <input type="checkbox" class="checked">
@@ -381,9 +384,14 @@
                                 <h5 class="card-title">{{ $products->name }}</h5>
                                 <p class="card-text">
                                     <span class="item_price"><b>${{ $products->price }}</b></span>
-                                    <del>${{ $products->price+ 50 }}</del>
+                                    <del>${{ $products->price + 50 }}</del>
                                 </p>
-                                <a href="{{ route('add.to.cart') }}" class="btn btn-primary add-to-cart-btn">Add To Cart</a>
+                                <form action="{{ route('add.to.cart') }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $products->id }}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="btn btn-primary add-to-cart-btn">Add To Cart</button>
+                                </form>
                             </div>
                         </div>
                     @endforeach

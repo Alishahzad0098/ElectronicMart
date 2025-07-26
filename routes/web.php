@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Usercontroller;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -7,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\Ordercontroller;
 
 Route::get("/form", [ProductController::class, "create"]);
 Route::get("/table", [ProductController::class, "table"])->name("table.product");
@@ -26,13 +28,24 @@ Route::post("/registersave", [Usercontroller::class, "register"])->name('registe
 Route::get("/login", [Usercontroller::class, "loginpage"])->name('loginpage');
 Route::post("/loginsave", [Usercontroller::class, "login"])->name('login');
 Route::get("/dashboard", [Usercontroller::class, "dashboardpage"])->name('dashboard');
-Route::get("/logout", [Usercontroller::class, "logout"])->name('logout');
+
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect()->route('loginpage');
+})->name('logout');
+
 Route::get("/authtable", [Usercontroller::class, "table"])->name('authtable');
 Route::get('/edituser/{id}', [Usercontroller::class, "edituser"])->name('edit.user');
 Route::post('/user/update/{id}', [UserController::class, 'update'])->name('update.user');
 // 
 // 
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.to.cart');
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
+Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/checkout', [OrderController::class, 'placeOrder'])->name('checkout');
+Route::get('/checkoutpage', [OrderController::class, 'show'])->name('checkoutpage');
+
 
 
 

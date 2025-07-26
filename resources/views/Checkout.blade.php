@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +16,14 @@
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link rel="icon" href="favicon/icons8-cart.gif">
     <link rel="stylesheet" href="{{ asset("style.css") }}">
+    <style>
+        /* form{
+            width:500px;
+        } */
+        label{
+        padding: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,10 +31,11 @@
         <div class="d-flex flex-wrap align-items-center justify-content-between px-2">
 
             <h5 class="mb-2 mb-md-0" style="margin-left: 10px;">
-                Welcome to Electronic Mart {{ Auth::user()->name }}
+                Welcome to Electronic Mart
             </h5>
+
             <div class="d-flex flex-wrap align-items-center" style="margin-right: 10px;">
-                <!-- <a href="#" class="text-secondary text-decoration-none me-3">
+                <a href="#" class="text-secondary text-decoration-none me-3">
                     <h6 class="mb-0">
                         <i class="fa-solid fa-right-to-bracket me-1"></i> Login
                     </h6>
@@ -32,7 +44,7 @@
                     <h6 class="mb-0">
                         <i class="fa-solid fa-circle-user me-1"></i> Register
                     </h6>
-                </a> -->
+                </a>
             </div>
 
         </div>
@@ -90,9 +102,6 @@
                     <li class="nav-item">
                         <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link active text-white" aria-current="page" href="Products.html">Products</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="#">Link</a>
                     </li>
@@ -105,52 +114,35 @@
     </nav>
     <!-- navbar end -->
     <div class="ab-top">
-        <h1 class="text-center text-white" style="padding-top: 100px; font-size: 50px;">Checkout</h1>
+        <h1 class="text-center text-white" style="padding-top: 100px; font-size: 50px;">Products</h1>
         <h5 class="text-center text-white" style="padding-bottom: 100px;"><a href="Homepage.html"
-                class="text-white">Product</a> >> Cart </h5>
+                class="text-white">Home</a> >> Checkout </h5>
     </div>
     <!--  -->
     <!--  -->
     <div class="container">
         <div class=" mt-5 text-center">
-            <h1><span style="font-weight: 800;">Your Shopping Cart has: 3 Products</span></h1>
+            <h1><span style="font-weight: 800;">Add New Details</span></h1>
         </div>
 
-        <table class="table table-light table-bordered table-hover text-center">
-            <thead class="table-primary">
-                <tr>
-                    <th>#</th>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Remove</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php $count = 1; @endphp
-                @foreach(session('cart', []) as $id => $item)
-                    <tr>
-                        <td>{{ $count++ }}</td>
-                        <td>
-                            @if(!empty($item['images'][0]))
-                                <img src="{{ asset($item['images'][0]) }}" width="60">
-                            @else
-                                No Image
-                            @endif
-                        </td>
-                        <td>{{ $item['quantity'] }}</td>
-                        <td>${{ $item['price'] }}</td>
-                        <td>
-                            <form method="POST" action="{{ route('cart.remove', $id) }}">
-                                @csrf
-                                <button class="btn btn-danger">Remove</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-       <a href="{{ route('checkoutpage') }}" class="btn btn-warning my-5">Proceed to Checkout</a>
+        <form action="{{ route('checkout') }}" method="POST" class="my-5 ">
+            @csrf 
+            <label for="">Your Name</label>
+            <input class="form-control form-control-lg bg-light w-auto" type="text" placeholder="Full Name" aria-label="default input example" name="name" id="name" >
+            <label for="">Mobile Number</label>
+            <input class="form-control form-control-lg bg-light w-auto" type="number" placeholder="Mobile Number " aria-label="default input example" name="number" id="number" >
+            <label for="">Email</label>
+            <input class="form-control form-control-lg bg-light w-auto" type="email" placeholder="Email " aria-label="default input example" name="email" id="email" >
+            <label for="">Address</label>
+            <input class="form-control form-control-lg bg-light w-auto" type="text" placeholder="Address" aria-label="default input example" name="address" id="address" >
+            <!-- <label for="">City</label>
+            <input class="form-control form-control-lg bg-light w-auto" type="text" placeholder="City" aria-label="default input example"> -->
+        <div class="payment mt-3">
+            <h3 class="fw-bolder"> Payment Method</h3>
+            <input type="radio" class="me-3" placeholder="" value="COD" name="payment" id="payment">Cash On Delivery
+        </div>
+        <button type="submit" class="btn text-white mt-4" style="background-color: rgb(255, 153, 0);">Place Your Order</button>
+        </form>
     </div>
     <footer>
         <div class="container py-5">

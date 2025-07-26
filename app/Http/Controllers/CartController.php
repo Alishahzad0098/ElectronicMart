@@ -1,38 +1,56 @@
 <?php
 
 namespace App\Http\Controllers;
- use App\Models\Products;
+use App\Models\Products;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
- 
 
-public function addToCart(Request $request)
-{
-    $productId = $request->product_id;
-    $quantity = $request->quantity ?? 1;
+    public function showCart()
+    {
+        $cart = session()->get('cart', []);
 
-    $product = Products::findOrFail($productId);
-
-    $cart = session()->get('cart', []);
-
-    if (isset($cart[$productId])) {
-        // If product already in cart, just increase quantity
-        $cart[$productId]['quantity'] += $quantity;
-    } else {
-        // Add new product to cart
-        $cart[$productId] = [
-            'id' => $product->id,
-            'name' => $product->name,
-            'price' => $product->price,
-            'quantity' => $quantity,
-            'image' => json_decode($product->images)[0] ?? null // First image
-        ];
+        return view('cart', compact('cart'));
     }
+    public function addToCart(Request $request)
+    {
+        $productId = $request->input('product_id');
+        $quantity = $request->input('quantity', 1); // Default to 1
 
+        $product = Products::find($productId);
+
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found.');
+        }
+
+        // ✅ Decode the images from JSON stored in the DB
+        $imageArray = json_decode($product->images, true); // true = convert to array
+
+        // Get existing cart or start new
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$productId])) {
+            $cart[$productId]['quantity'] += $quantity;
+        } else {
+            $cart[$productId] = [
+                'name' => $product->name,
+                'price' => $product->price,
+                'description' => $product->description,
+                'images' => $imageArray, // ✅ this stores array of image paths
+                'quantity' => $quantity,
+            ];
+        }
+
+        session()->put('cart', $cart); // Save updated cart in session
+
+        return redirect()->back()->with('success', 'Product added to cart!');
+    }
+public function remove($id)
+{
+    $cart = session()->get('cart', []);
+    unset($cart[$id]);
     session()->put('cart', $cart);
-
-    return redirect()->back()->with('success', 'Product added to cart!');
+    return back()->with('success', 'Item removed from cart.');
 }
 }
