@@ -5,6 +5,9 @@ use App\Models\Carousel;
 use App\Models\Products;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class ProductController extends Controller
 {
@@ -14,13 +17,17 @@ class ProductController extends Controller
     }
     function show()
     {
-        $product = Products::where('categories', 'computers')->get();
+      $product = Products::orderBy('id', 'desc')->take(3)->get();
         $c1 = Carousel::all();
         return view('Home', compact('product', 'c1'));
     }
     function create()
     {
-        return view("Productsform");
+        if (Auth::check()) {
+            return view("Productsform");
+        } else {
+            return redirect()->route('login');
+        }
     }
     public function store(Request $request)
     {
@@ -63,8 +70,16 @@ class ProductController extends Controller
 
     public function table()
     {
-        $product = Products::all();
-        return view("Productable", compact("product"));
+        if (Auth::check()) {
+            if (auth()->user()->role === 'admin') {
+                $product = Products::all();
+                return view("Productable", compact("product"));
+            } else {
+                return redirect()->route('home');
+            }
+        } else {
+            return redirect()->route('loginpage');
+        }
     }
     public function delete($id)
     {
@@ -78,12 +93,12 @@ class ProductController extends Controller
         return view('Singleproduct', compact('product'));
     }
 
-   public function productshow()
-{
-    $product = Products::where('categories', 'computers')->get();
-    $p2 = Products::where('categories', 'mobiles-tablets')->get();
-    $p3 = Products::where('categories', 'headphones')->get();
-    $p4 = Products::where('categories', 'watches')->get();
-    return view('Products', compact('product', 'p2', 'p3', 'p4'));
-}
+    public function productshow()
+    {
+        $product = Products::where('categories', 'computers')->get();
+        $p2 = Products::where('categories', 'mobiles-tablets')->get();
+        $p3 = Products::where('categories', 'headphones')->get();
+        $p4 = Products::where('categories', 'watches')->get();
+        return view('Products', compact('product', 'p2', 'p3', 'p4'));
+    }
 }

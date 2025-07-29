@@ -62,68 +62,65 @@ ul {
 
 /* Card Styling */
 .card {
-  width: 18rem;
-  overflow: hidden;
-  /* Ensures button animation stays contained */
-  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid #eee;
-  transition: all 0.3s ease;
 }
 
 .card:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Image Container */
 .card-img-container {
   position: relative;
   padding: 1rem;
+  height: 200px;
   display: flex;
+  align-items: center;
   justify-content: center;
-  overflow: hidden;
+  background: #f8f9fa;
+  border-bottom: 1px solid #eee;
 }
 
-.card-img-top {
-  width: 50%;
-  transition: transform 0.3s ease;
-}
-
-/* Quick View Button */
 .quick-view-btn {
   position: absolute;
-  top: -50px;
-  left: 0;
-  right: 0;
-  width: 100%;
-  padding: 10px;
-  background-color: rgba(42, 42, 109, 0.9);
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 153, 0, 0.9);
   color: white;
-  border: none;
-  cursor: pointer;
-  transition: all 0.4s ease-out;
+  padding: 5px 15px;
+  border-radius: 20px;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-size: 0.8rem;
 }
 
-.card-img-container:hover .quick-view-btn {
-  top: 0;
+.card:hover .quick-view-btn {
+  opacity: 1;
 }
 
-/* Add to Cart Button */
 .add-to-cart-btn {
-  background-color: rgb(42, 42, 109);
-  color: white;
+  background-color: rgb(255, 153, 0);
+  border-color: rgb(255, 153, 0);
   transition: all 0.3s ease;
 }
 
 .add-to-cart-btn:hover {
-  background-color: rgb(60, 60, 150);
-  transform: translateY(-2px);
+  background-color: rgb(230, 138, 0);
+  border-color: rgb(230, 138, 0);
 }
 
-.bgtrans {
-  background-image: url("asset/carousel/banner.jpg");
-  background-repeat: repeat-y;
-  background-position: center;
-  /* background-size: cover; */
+.item_price {
+  color: rgb(255, 153, 0);
+  font-size: 1.2rem;
+}
+
+del {
+  color: #999;
+  font-size: 0.9rem;
+  margin-left: 5px;
 }
 
 footer {

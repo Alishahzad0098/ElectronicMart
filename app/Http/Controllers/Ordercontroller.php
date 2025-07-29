@@ -7,12 +7,19 @@ use Illuminate\Support\Facades\Auth; // if storing user_id
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class Ordercontroller extends Controller
 {
     public function show()
     {
-        return view('Checkout'); // Make sure the view file exists: resources/views/Checkout.blade.php
+        if (Auth::check()) {
+            return view('Checkout');
+        }
+       else{
+        return  redirect()->route('login');
+       } // Make sure the view file exists: resources/views/Checkout.blade.php
     }
 
 

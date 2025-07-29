@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-
+use Illuminate\Http\Request;
 class Usercontroller extends Controller
 {
     public function page()
@@ -65,7 +64,7 @@ class Usercontroller extends Controller
     public function logout()
     {
         Auth::logout();
-        return view('login');
+        return redirect()->back();
     }
     public function loginpage()
     {

@@ -14,26 +14,100 @@
     <link rel="icon" href="favicon/icons8-cart.gif">
     <link rel="stylesheet" href="{{ asset('style.css') }}">
 </head>
+<style>
+    .product-carousel-image-container {
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .product-carousel-image {
+        max-height: 100%;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+    }
+
+    /* Carousel Controls */
+    .carousel-control-prev,
+    .carousel-control-next {
+        background-color: rgba(0, 0, 0, 0.1);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .carousel-control-prev {
+        left: 15px;
+    }
+
+    .carousel-control-next {
+        right: 15px;
+    }
+
+    /* Product Info Styling */
+    .item_price {
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+
+    .add-to-cart-btn {
+        background-color: rgb(255, 153, 0);
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .add-to-cart-btn:hover {
+        background-color: rgb(230, 138, 0);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-description {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+    }
+</style>
 
 <body>
-    <div class="container mt-2 text-secondary ">
+      <div class="container mt-2 text-secondary ">
         <div class="d-flex flex-wrap align-items-center justify-content-between px-2">
-
             <h5 class="mb-2 mb-md-0" style="margin-left: 10px;">
                 Welcome to Electronic Mart
             </h5>
 
             <div class="d-flex flex-wrap align-items-center" style="margin-right: 10px;">
-                <a href="#" class="text-secondary text-decoration-none me-3">
-                    <h6 class="mb-0">
-                        <i class="fa-solid fa-right-to-bracket me-1"></i> Login
-                    </h6>
-                </a>
-                <a href="#" class="text-secondary text-decoration-none">
-                    <h6 class="mb-0">
-                        <i class="fa-solid fa-circle-user me-1"></i> Register
-                    </h6>
-                </a>
+                {{-- Show if user is NOT logged in --}}
+                @guest
+                    <a href="{{ route('loginpage') }}" class="text-secondary text-decoration-none me-3">
+                        <h6 class="mb-0">
+                            <i class="fa-solid fa-right-to-bracket me-1"></i> Login
+                        </h6>
+                    </a>
+                    <a href="{{ route('view') }}" class="text-secondary text-decoration-none">
+                        <h6 class="mb-0">
+                            <i class="fa-solid fa-circle-user me-1"></i> Register
+                        </h6>
+                    </a>
+                @endguest
+
+                {{-- Show if user IS logged in --}}
+                @auth
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-link text-secondary text-decoration-none p-0">
+                            <h6 class="mb-0">
+                                <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+                            </h6>
+                        </button>
+                    </form>
+                @endauth
             </div>
 
         </div>
@@ -58,7 +132,8 @@
                 <p>
                     <i class="fa-regular fa-moon "></i>
                     <i class="far fa-heart ms-3"></i>
-                    <i class="fa-solid fa-cart-shopping ms-3"></i>
+                    <a href="{{ route('cart.show') }} ">
+                        <i class="fa-solid fa-cart-shopping ms-3 text-black"></i></a>
                 </p>
             </div>
         </div>
@@ -89,10 +164,14 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active text-white" aria-current="page" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Link</a>
+                        <a class="nav-link active text-white" aria-current="page"
+                            href="{{ route('products') }}">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">About</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="#">Contact</a>
@@ -117,7 +196,7 @@
             <div class="row">
                 <div class="col-lg-5">
                     <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
+                        <div class="carousel-inner" style="background-color: #f8f9fa; border-radius: 8px;">
                             @php
                                 $images = json_decode($product->images, true);
                             @endphp
@@ -125,12 +204,17 @@
                             @if ($images && is_array($images))
                                 @foreach ($images as $index => $image)
                                     <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                        <img src="{{ asset($image) }}" class="d-block w-100" alt="Product Image">
+                                        <div class="product-carousel-image-container">
+                                            <img src="{{ asset($image) }}" class="product-carousel-image" alt="Product Image">
+                                        </div>
                                     </div>
                                 @endforeach
                             @else
                                 <div class="carousel-item active">
-                                    <img src="{{ asset('images/default.png') }}" class="d-block w-100" alt="No Image">
+                                    <div class="product-carousel-image-container">
+                                        <img src="{{ asset('images/default.png') }}" class="product-carousel-image"
+                                            alt="No Image">
+                                    </div>
                                 </div>
                             @endif
                         </div>
@@ -150,34 +234,40 @@
                     </div>
                 </div>
 
-
                 <div class="col-lg-7">
                     <div class="single-right-left simpleCart_shelfItem">
                         <h3 class="mb-3 fw-bolder">{{ $product->name }}</h3>
                         <p class="mb-3 fw-semibold fs-5">
-                            <span class="item_price">${{ $product->price }}</span>
+                            <span class="item_price text-warning">${{ $product->price }}</span>
                             <del class="mx-2 font-weight-light text-muted">${{ $product->price + 40 }}</del>
+                            <span class="badge bg-danger ms-2">Save $40</span>
                         </p>
 
                         <ul class="text-muted">
-                            <li class="mb-2">Cash on Delivery Eligible</li>
-                            <li class="mb-2">Shipping Speed to Delivery</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Cash on Delivery
+                                Eligible</li>
+                            <li class="mb-2"><i class="fas fa-shipping-fast text-primary me-2"></i>Fast Shipping</li>
                         </ul>
 
                         <hr>
 
-                        <p class="my-3">
-                            <i class="far fa-hand-point-right me-2 text-warning"></i>
-                            1 Year Manufacturer Warranty
-                        </p>
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-shield-alt text-warning me-2 fs-5"></i>
+                            <span>1 Year Manufacturer Warranty</span>
+                        </div>
 
-                        <p class="my-3">{{ $product->description }}</p>
+                        <div class="product-description mb-4">
+                            <h5 class="fw-semibold">Description:</h5>
+                            <p>{{ $product->description }}</p>
+                        </div>
 
-                        <form action="{{ route('add.to.cart') }}" method="POST" style="display: inline;">
+                        <form action="{{ route('add.to.cart') }}" method="POST">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn btn-primary add-to-cart-btn">Add To Cart</button>
+                            <button type="submit" class="btn btn-warning text-white add-to-cart-btn px-4 py-2">
+                                <i class="fas fa-cart-plus me-2"></i>Add To Cart
+                            </button>
                         </form>
                     </div>
                 </div>

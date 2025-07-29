@@ -20,8 +20,8 @@
         /* form{
             width:500px;
         } */
-        label{
-        padding: 10px;
+        label {
+            padding: 10px;
         }
     </style>
 </head>
@@ -29,22 +29,36 @@
 <body>
     <div class="container mt-2 text-secondary ">
         <div class="d-flex flex-wrap align-items-center justify-content-between px-2">
-
             <h5 class="mb-2 mb-md-0" style="margin-left: 10px;">
                 Welcome to Electronic Mart
             </h5>
 
             <div class="d-flex flex-wrap align-items-center" style="margin-right: 10px;">
-                <a href="#" class="text-secondary text-decoration-none me-3">
-                    <h6 class="mb-0">
-                        <i class="fa-solid fa-right-to-bracket me-1"></i> Login
-                    </h6>
-                </a>
-                <a href="#" class="text-secondary text-decoration-none">
-                    <h6 class="mb-0">
-                        <i class="fa-solid fa-circle-user me-1"></i> Register
-                    </h6>
-                </a>
+                {{-- Show if user is NOT logged in --}}
+                @guest
+                    <a href="{{ route('loginpage') }}" class="text-secondary text-decoration-none me-3">
+                        <h6 class="mb-0">
+                            <i class="fa-solid fa-right-to-bracket me-1"></i> Login
+                        </h6>
+                    </a>
+                    <a href="{{ route('view') }}" class="text-secondary text-decoration-none">
+                        <h6 class="mb-0">
+                            <i class="fa-solid fa-circle-user me-1"></i> Register
+                        </h6>
+                    </a>
+                @endguest
+
+                {{-- Show if user IS logged in --}}
+                @auth
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-link text-secondary text-decoration-none p-0">
+                            <h6 class="mb-0">
+                                <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+                            </h6>
+                        </button>
+                    </form>
+                @endauth
             </div>
 
         </div>
@@ -69,7 +83,8 @@
                 <p>
                     <i class="fa-regular fa-moon "></i>
                     <i class="far fa-heart ms-3"></i>
-                    <i class="fa-solid fa-cart-shopping ms-3"></i>
+                    <a href="{{ route('cart.show') }} ">
+                        <i class="fa-solid fa-cart-shopping ms-3 text-black"></i></a>
                 </p>
             </div>
         </div>
@@ -100,10 +115,14 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active text-white" aria-current="page" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Link</a>
+                        <a class="nav-link active text-white" aria-current="page"
+                            href="{{ route('products') }}">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">About</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="#">Contact</a>
@@ -126,22 +145,27 @@
         </div>
 
         <form action="{{ route('checkout') }}" method="POST" class="my-5 ">
-            @csrf 
+            @csrf
             <label for="">Your Name</label>
-            <input class="form-control form-control-lg bg-light w-auto" type="text" placeholder="Full Name" aria-label="default input example" name="name" id="name" >
+            <input class="form-control form-control-lg bg-light w-auto" type="text" placeholder="Full Name"
+                aria-label="default input example" name="name" id="name">
             <label for="">Mobile Number</label>
-            <input class="form-control form-control-lg bg-light w-auto" type="number" placeholder="Mobile Number " aria-label="default input example" name="number" id="number" >
+            <input class="form-control form-control-lg bg-light w-auto" type="number" placeholder="Mobile Number "
+                aria-label="default input example" name="number" id="number">
             <label for="">Email</label>
-            <input class="form-control form-control-lg bg-light w-auto" type="email" placeholder="Email " aria-label="default input example" name="email" id="email" >
+            <input class="form-control form-control-lg bg-light w-auto" type="email" placeholder="Email "
+                aria-label="default input example" name="email" id="email">
             <label for="">Address</label>
-            <input class="form-control form-control-lg bg-light w-auto" type="text" placeholder="Address" aria-label="default input example" name="address" id="address" >
+            <input class="form-control form-control-lg bg-light w-auto" type="text" placeholder="Address"
+                aria-label="default input example" name="address" id="address">
             <!-- <label for="">City</label>
             <input class="form-control form-control-lg bg-light w-auto" type="text" placeholder="City" aria-label="default input example"> -->
-        <div class="payment mt-3">
-            <h3 class="fw-bolder"> Payment Method</h3>
-            <input type="radio" class="me-3" placeholder="" value="COD" name="payment" id="payment">Cash On Delivery
-        </div>
-        <button type="submit" class="btn text-white mt-4" style="background-color: rgb(255, 153, 0);">Place Your Order</button>
+            <div class="payment mt-3">
+                <h3 class="fw-bolder"> Payment Method</h3>
+                <input type="radio" class="me-3" placeholder="" value="COD" name="payment" id="payment">Cash On Delivery
+            </div>
+            <button type="submit" class="btn text-white mt-4" style="background-color: rgb(255, 153, 0);">Place Your
+                Order</button>
         </form>
     </div>
     <footer>

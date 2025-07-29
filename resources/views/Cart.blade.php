@@ -18,21 +18,36 @@
 <body>
     <div class="container mt-2 text-secondary ">
         <div class="d-flex flex-wrap align-items-center justify-content-between px-2">
-
             <h5 class="mb-2 mb-md-0" style="margin-left: 10px;">
-                Welcome to Electronic Mart {{ Auth::user()->name }}
+                Welcome to Electronic Mart
             </h5>
+
             <div class="d-flex flex-wrap align-items-center" style="margin-right: 10px;">
-                <!-- <a href="#" class="text-secondary text-decoration-none me-3">
-                    <h6 class="mb-0">
-                        <i class="fa-solid fa-right-to-bracket me-1"></i> Login
-                    </h6>
-                </a>
-                <a href="#" class="text-secondary text-decoration-none">
-                    <h6 class="mb-0">
-                        <i class="fa-solid fa-circle-user me-1"></i> Register
-                    </h6>
-                </a> -->
+                {{-- Show if user is NOT logged in --}}
+                @guest
+                    <a href="{{ route('loginpage') }}" class="text-secondary text-decoration-none me-3">
+                        <h6 class="mb-0">
+                            <i class="fa-solid fa-right-to-bracket me-1"></i> Login
+                        </h6>
+                    </a>
+                    <a href="{{ route('view') }}" class="text-secondary text-decoration-none">
+                        <h6 class="mb-0">
+                            <i class="fa-solid fa-circle-user me-1"></i> Register
+                        </h6>
+                    </a>
+                @endguest
+
+                {{-- Show if user IS logged in --}}
+                @auth
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-link text-secondary text-decoration-none p-0">
+                            <h6 class="mb-0">
+                                <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+                            </h6>
+                        </button>
+                    </form>
+                @endauth
             </div>
 
         </div>
@@ -57,7 +72,8 @@
                 <p>
                     <i class="fa-regular fa-moon "></i>
                     <i class="far fa-heart ms-3"></i>
-                    <i class="fa-solid fa-cart-shopping ms-3"></i>
+                    <a href="{{ route('cart.show') }} ">
+                        <i class="fa-solid fa-cart-shopping ms-3 text-black"></i></a>
                 </p>
             </div>
         </div>
@@ -88,19 +104,19 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link active text-white" aria-current="page" href="Products.html">Products</a>
+                        <a class="nav-link active text-white" aria-current="page" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">Link</a>
+                        <a class="nav-link active text-white" aria-current="page"
+                            href="{{ route('products') }}">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">About</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="#">Contact</a>
                     </li>
-            </div>
-            </ul>
+                            </ul>
         </div>
     </nav>
     <!-- navbar end -->
@@ -112,8 +128,9 @@
     <!--  -->
     <!--  -->
     <div class="container">
+        @php $count = 1; @endphp
         <div class=" mt-5 text-center">
-            <h1><span style="font-weight: 800;">Your Shopping Cart has: 3 Products</span></h1>
+            <h1><span style="font-weight: 800;">Your Shopping Cart has: $count Products</span></h1>
         </div>
 
         <table class="table table-light table-bordered table-hover text-center">
@@ -150,7 +167,7 @@
                 @endforeach
             </tbody>
         </table>
-       <a href="{{ route('checkoutpage') }}" class="btn btn-warning my-5">Proceed to Checkout</a>
+        <a href="{{ route('checkoutpage') }}" class="btn btn-warning my-5">Proceed to Checkout</a>
     </div>
     <footer>
         <div class="container py-5">
