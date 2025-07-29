@@ -72,5 +72,18 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route("table.product");
     }
+    public function product($id)
+    {
+        $product = Products::findOrFail($id);
+        return view('Singleproduct', compact('product'));
+    }
 
+   public function productshow()
+{
+    $product = Products::where('categories', 'computers')->get();
+    $p2 = Products::where('categories', 'mobiles-tablets')->get();
+    $p3 = Products::where('categories', 'headphones')->get();
+    $p4 = Products::where('categories', 'watches')->get();
+    return view('Products', compact('product', 'p2', 'p3', 'p4'));
+}
 }

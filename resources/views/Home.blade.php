@@ -106,6 +106,10 @@
                         <a class="nav-link active text-white" aria-current="page" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link active text-white" aria-current="page"
+                            href="{{ route('products') }}">Products</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-white" href="#">About</a>
                     </li>
                     <li class="nav-item">
@@ -125,7 +129,9 @@
                         <img src="{{ asset('images/' . $products->img) }}" class="d-block w-100" alt="Carousel Image">
                         <div class="carousel-caption ps-4 mb-5 align-self-center">
                             <h5 style="font-size:30px; font-weight: 700;">{{ $products->para }}</h5>
-                            <button class="btn btn-outline-warning bg-warning text-white px-5 pt-3 pb-3 ">Shop Now</button>
+                            <a href="{{ route('productshow') }}"> <button
+                                    class="btn btn-outline-warning bg-warning text-white px-5 pt-3 pb-3 ">Shop
+                                    Now</button></a>
                         </div>
                     </div>
 
@@ -377,8 +383,8 @@
                                 @else
                                     <img src="{{ asset('images/default.png') }}" class="card-img-top" alt="Default Image">
                                 @endif
-                                <button class="quick-view-btn">Quick
-                                    View</button>
+                                <a href="{{ route('productshow', ['id' => $products->id]) }}" class="quick-view-btn">Quick
+                                    View</a>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">{{ $products->name }}</h5>
@@ -589,8 +595,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        </div>
         </div>
     </footer>
 </body>

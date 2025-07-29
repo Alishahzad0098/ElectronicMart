@@ -13,8 +13,11 @@ use App\Http\Controllers\Ordercontroller;
 Route::get("/form", [ProductController::class, "create"]);
 Route::get("/table", [ProductController::class, "table"])->name("table.product");
 Route::post("/store", [ProductController::class, "store"])->name("store.product");
-Route::get('/products/{id}', [ProductController::class, 'delete'])->name('delete.product');
+Route::get('/delete/{id}', [ProductController::class, 'delete'])->name('delete.product');
 Route::get("/home", [ProductController::class, "show"])->name('home');
+Route::get('/product/{id}',[ProductController::class , "product"])->name('productshow');
+Route::get("/products", [ProductController::class, "productshow"])->name('products');
+
 
 Route::get("/carform", [CarouselController::class, "create"]);
 Route::get("/cartable", [CarouselController::class, "table"])->name("table.car");

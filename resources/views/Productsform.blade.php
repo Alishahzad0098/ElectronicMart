@@ -23,9 +23,8 @@
                         <option value="television">Television</option>
                         <option value="headphone">Headphone</option>
                         <option value="computers">Computers</option>
-                        <option value="appliances">Appliances</option>
-                        <option value="tv-video">TV & video</option>
-                        <option value="ipads-tablets">iPads & Tablets</option>
+                        <option value="watches">Watches</option>
+                        <option value="mobiles-tablets">Mobiles & Tablets</option>
                     </select>
                 </div>
                 <div class="mb-3">
