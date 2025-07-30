@@ -10,7 +10,7 @@ use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Ordercontroller;
 
-Route::get("/form", [ProductController::class, "create"]);
+Route::get("/form", [ProductController::class, "create"])->name('form.product');
 Route::get("/table", [ProductController::class, "table"])->name("table.product");
 Route::post("/store", [ProductController::class, "store"])->name("store.product");
 Route::get('/delete/{id}', [ProductController::class, 'delete'])->name('delete.product');
@@ -19,7 +19,7 @@ Route::get('/product/{id}',[ProductController::class , "product"])->name('produc
 Route::get("/products", [ProductController::class, "productshow"])->name('products');
 
 
-Route::get("/carform", [CarouselController::class, "create"]);
+Route::get("/carform", [CarouselController::class, "create"])->name('form.carousel');
 Route::get("/cartable", [CarouselController::class, "table"])->name("table.car");
 Route::post("/carstore", [CarouselController::class, "store"])->name("store.car");
 
@@ -48,6 +48,7 @@ Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
 Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/checkout', [OrderController::class, 'placeOrder'])->name('checkout');
 Route::get('/checkoutpage', [OrderController::class, 'show'])->name('checkoutpage');
+Route::get('/admin/ordertable', [OrderController::class, 'order'])->name('order.table');
 
 
 

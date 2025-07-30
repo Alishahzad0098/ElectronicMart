@@ -18,7 +18,7 @@ class Ordercontroller extends Controller
             return view('Checkout');
         }
        else{
-        return  redirect()->route('login');
+        return  redirect()->route('loginpage');
        } // Make sure the view file exists: resources/views/Checkout.blade.php
     }
 
@@ -65,5 +65,8 @@ class Ordercontroller extends Controller
 
         return redirect()->route('home')->with('success', 'Order placed successfully!');
     }
-
+    public function order(){
+        $order = Order::all();
+        return view('Ordertable',compact('order'));
+    }
 }

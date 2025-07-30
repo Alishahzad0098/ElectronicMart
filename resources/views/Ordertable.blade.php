@@ -4,11 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products Form</title>
+    <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('style.css') }}">
-
     <style>
         /* Font imports */
         @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
@@ -290,20 +288,27 @@
         </ul>
     </nav>
     <div class="container mt-4">
-        <a href="{{ route('form.carousel') }}" class="btn btn-info my-4 ms-5 text-white ">Add Carousel</a>
-        <table border="2" class="table table-bordered">
-            <thead>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
                 <tr>
-                    <th>Image</th>
-                    <th>Para</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Payment</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($car as $products)
-                    <tr>
-                        <td><img src="{{asset('images/' . $products->img)}}" width="100px" height="100px"></td>
-                        <td>{{ $products->para}}</td>
-                    </tr>
+                @foreach ( $order as $products)
+                <tr>
+                    <td>{{ $products->id }}</td>
+                    <td>{{ $products->customer_name }}</td>
+                    <td>{{ $products->number}}</td>
+                    <td>{{ $products->customer_email }}</td>
+                    <td>{{ $products->address }}</td>
+                    <td>{{ $products->total_amount }}</td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
@@ -313,7 +318,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script>
+        <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Toggle menu collapse
             const menuToggle = document.querySelector('.menu-toggle');
@@ -366,7 +371,6 @@
             handleResize(); // Initialize
         });
     </script>
-
 </body>
 
 </html>

@@ -17,8 +17,16 @@ class Usercontroller extends Controller
     }
     public function table()
     {
-        $user = User::where('role', 'user')->get();
-        return view('authtable', compact('user'));
+        if (Auth::check()) {
+            if (auth()->user()->role === 'admin') {
+                $user = User::where('role', 'user')->get();
+                return view('authtable', compact('user'));
+            } else {
+                return redirect()->route('home');
+            }
+        } else {
+            return redirect()->route('loginpage');
+        }
     }
     public function login(Request $request)
     {
@@ -57,7 +65,7 @@ class Usercontroller extends Controller
                 return redirect()->route('home');
             }
         } else {
-            return redirect()->route('login');
+            return redirect()->route('loginpage');
         }
 
     }

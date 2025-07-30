@@ -11,20 +11,20 @@ use App\Models\User;
 
 class ProductController extends Controller
 {
-    public function welcome()
-    {
-        return view('welcome');
-    }
     function show()
     {
-      $product = Products::orderBy('id', 'desc')->take(3)->get();
+        $product = Products::orderBy('id', 'desc')->take(3)->get();
         $c1 = Carousel::all();
         return view('Home', compact('product', 'c1'));
     }
     function create()
     {
         if (Auth::check()) {
-            return view("Productsform");
+            if (auth()->user()->role === 'admin') {
+                return view("Productsform");
+            } else {
+                return redirect()->route('home');
+            }
         } else {
             return redirect()->route('login');
         }

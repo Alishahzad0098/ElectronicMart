@@ -1,5 +1,5 @@
 <?php
-    
+
 
 namespace App\Http\Controllers;
 use App\Models\Carousel;
@@ -15,27 +15,43 @@ class CarouselController extends Controller
 {
     function create()
     {
-        return view("carousel.carform");
+        if (Auth::check()) {
+            if (auth()->user()->role === 'admin') {
+                return view("carousel.carform");
+            } else {
+                return redirect()->route('home');
+            }
+        } else {
+            return redirect()->route('loginpage');
+        }
     }
     function table()
     {
-        $car = Carousel::all();
-        return view("carousel.cartable",compact('car'));
+        if (Auth::check()) {
+            if (auth()->user()->role === 'admin') {
+                $car = Carousel::all();
+                return view("carousel.cartable", compact('car'));
+            } else {
+                return redirect()->route('home');
+            }
+        } else {
+            return redirect()->route('loginpage');
+        }
     }
-   public function store(Request $request)
-{ 
-    $c1 = new Carousel();
-    $image = $request->file("img");
+    public function store(Request $request)
+    {
+        $c1 = new Carousel();
+        $image = $request->file("img");
 
-    if ($image) {
-        $imageName = time() . '_' . Str::random(5) . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images'), $imageName);
-        $c1->img = $imageName;
+        if ($image) {
+            $imageName = time() . '_' . Str::random(5) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            $c1->img = $imageName;
+        }
+
+        $c1->para = $request->para;
+        $c1->save();
+
+        return redirect()->back()->with('success', 'Carousel saved!');
     }
-
-    $c1->para = $request->para;
-    $c1->save();
-
-    return redirect()->back()->with('success', 'Carousel saved!');
-}
 }

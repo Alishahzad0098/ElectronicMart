@@ -8,221 +8,291 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-        @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
+        /* Font imports */
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+        /* Variables */
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #f8f9fc;
+            --dark-color: #2c3e50;
+            --light-color: #ffffff;
+            --hover-color: #3a5bd9;
+            --border-color: #e3e6f0;
+            --text-color: #d1d3e2;
+            --active-color: rgba(78, 115, 223, 0.2);
         }
 
-        @import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
-
-        .fa-2x {
-            font-size: 2em;
-        }
-
-        .fa {
-            position: relative;
-            display: table-cell;
-            width: 60px;
-            height: 36px;
-            text-align: center;
-            vertical-align: middle;
-            font-size: 20px;
-        }
-
-
-        .main-menu:hover,
-        nav.main-menu.expanded {
-            width: 250px;
-            overflow: visible;
-        }
-
+        /* Main Menu Styles */
         .main-menu {
-            background: #212121;
-            border-right: 1px solid #e5e5e5;
-            position: absolute;
+            background: var(--dark-color);
+            position: fixed;
             top: 0;
-            bottom: 0;
-            height: 100%;
             left: 0;
-            width: 60px;
-            overflow: hidden;
-            -webkit-transition: width .05s linear;
-            transition: width .05s linear;
-            -webkit-transform: translateZ(0) scale(1, 1);
+            height: 100vh;
+            width: 250px;
+            transition: all 0.3s ease;
             z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            font-family: 'Poppins', sans-serif;
         }
 
-        .main-menu>ul {
-            margin: 7px 0;
+        .main-menu.collapsed {
+            width: 80px;
+        }
+
+        .main-menu.collapsed .nav-text,
+        .main-menu.collapsed .dropdown-arrow,
+        .main-menu.collapsed .menu-logo {
+            display: none;
+        }
+
+        .main-menu.collapsed .menu-header {
+            justify-content: center;
+        }
+
+        .main-menu.collapsed .dropdown-menu {
+            position: static;
+            width: 100%;
+            margin-left: 0;
+            border: none;
+            box-shadow: none;
+            background-color: transparent;
+        }
+
+        /* Menu Header */
+        .menu-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-logo {
+            color: var(--light-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .menu-toggle {
+            color: var(--light-color);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Menu Items */
+        .menu-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+
+        .menu-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 0;
         }
 
         .main-menu li {
             position: relative;
-            display: block;
-            width: 250px;
+            list-style: none;
         }
 
         .main-menu li>a {
-            position: relative;
-            display: table;
-            border-collapse: collapse;
-            border-spacing: 0;
-            color: #999;
-            font-family: arial;
-            font-size: 14px;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            padding: 12px 20px;
             text-decoration: none;
-            -webkit-transform: translateZ(0) scale(1, 1);
-            -webkit-transition: all .1s linear;
-            transition: all .1s linear;
-
-        }
-
-        .main-menu .nav-icon {
+            transition: all 0.3s ease;
             position: relative;
-            display: table-cell;
-            width: 60px;
-            height: 36px;
-            text-align: center;
-            vertical-align: middle;
-            font-size: 18px;
         }
 
-        .main-menu .nav-text {
-            position: relative;
-            display: table-cell;
-            vertical-align: middle;
-            width: 190px;
-            font-family: 'Titillium Web', sans-serif;
+        .main-menu li>a:hover,
+        .main-menu li>a.active {
+            color: var(--light-color);
+            background-color: var(--active-color);
         }
 
-        .main-menu>ul.logout {
+        .main-menu li>a:hover::before,
+        .main-menu li>a.active::before {
+            content: '';
             position: absolute;
             left: 0;
-            bottom: 0;
-        }
-
-        .no-touch .scrollable.hover {
-            overflow-y: hidden;
-        }
-
-        .no-touch .scrollable.hover:hover {
-            overflow-y: auto;
-            overflow: visible;
-        }
-
-        a:hover,
-        a:focus {
-            text-decoration: none;
-        }
-
-        nav {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            -o-user-select: none;
-            user-select: none;
-        }
-
-        nav ul,
-        nav li {
-            outline: 0;
-            margin: 0;
-            padding: 0;
-        }
-
-        .main-menu li:hover>a,
-        nav.main-menu li.active>a,
-        .dropdown-menu>li>a:hover,
-        .dropdown-menu>li>a:focus,
-        .dropdown-menu>.active>a,
-        .dropdown-menu>.active>a:hover,
-        .dropdown-menu>.active>a:focus,
-        .no-touch .dashboard-page nav.dashboard-menu ul li:hover a,
-        .dashboard-page nav.dashboard-menu ul li.active a {
-            color: #fff;
-            background-color: #000000;
-        }
-
-        .area {
-            float: left;
-            background: #e2e2e2;
-            width: 100%;
-            height: 100%;
-        }
-
-        @font-face {
-            font-family: 'Titillium Web';
-            font-style: normal;
-            font-weight: 300;
-            src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            left: 100%;
             top: 0;
-            margin-top: 0;
-            z-index: 1000;
+            height: 100%;
+            width: 4px;
+            background-color: var(--primary-color);
         }
 
-        .nav-item.dropdown {
+        /* Icons and Text */
+        .main-menu .fa {
+            width: 30px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .nav-text {
+            margin-left: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
             position: relative;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 0 0 5px 5px;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.3s ease;
+        }
+
+        .dropdown-menu.show {
+            max-height: 500px;
+        }
+
+        .dropdown-menu li a {
+            padding: 10px 20px 10px 50px;
+            font-size: 0.85rem;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .dropdown-arrow {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-toggle.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            color: #e74c3c;
+        }
+
+        .logout-btn:hover {
+            background-color: rgba(231, 76, 60, 0.2) !important;
+        }
+
+        /* Scrollbar */
+        .menu-items::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .menu-items::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .menu-items::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-menu {
+                width: 80px;
+            }
+
+            .main-menu.expanded {
+                width: 250px;
+            }
+
+            .nav-text,
+            .dropdown-arrow,
+            .menu-logo {
+                display: none;
+            }
+
+            .main-menu.expanded .nav-text,
+            .main-menu.expanded .dropdown-arrow,
+            .main-menu.expanded .menu-logo {
+                display: inline-block;
+            }
+
+            .menu-header {
+                justify-content: center;
+            }
+
+            .main-menu.expanded .menu-header {
+                justify-content: space-between;
+            }
         }
     </style>
 </head>
 
 <body>
     <nav class="main-menu">
-        <ul>
-            <li>
-                <a href="#">
-                    <i class="fa fa-home fa-2x"></i>
-                    <span class="nav-text">
-                        Dashboard
-                    </span>
-                </a>
+        <div class="menu-header">
+            <span class="menu-logo">Admin Panel</span>
+            <i class="fa fa-bars menu-toggle"></i>
+        </div>
 
-            </li>
-            <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" id="tablesDropdown"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-align-left fa-lg pt-2 ps-3"></i>
-                    <span class="nav-text ps-2">Tables</span>
-                    <i class="fa fa-angle-down "></i>
+        <ul class="menu-items">
+            <li>
+                <a href="{{ route('dashboard') }}" class="active">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-text">Dashboard</span>
                 </a>
-                <ul class="dropdown-menu bg-black" aria-labelledby="tablesDropdown">
+            </li>
+
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle">
+                    <i class="fa fa-align-left"></i>
+                    <span class="nav-text">Tables</span>
+                    <i class="fa fa-angle-down dropdown-arrow"></i>
+                </a>
+                <ul class="dropdown-menu">
                     <li>
-                        <a href="{{ route('table.product') }}" class="dropdown-item">
+                        <a href="{{ route('table.product') }}">
                             <i class="fa fa-cube me-2"></i> Products Table
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('authtable') }}" class="dropdown-item">
+                        <a href="{{ route('authtable') }}">
                             <i class="fa fa-users me-2"></i> Users Table
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('table.car') }}" class="dropdown-item">
+                        <a href="{{ route('order.table') }}">
                             <i class="fa fa-shopping-cart me-2"></i> Orders Table
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('table.car') }}">
+                            <i class="fa fa-shopping-cart me-2"></i> Orders items Table
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('table.car') }}">
+                            <i class="fa fa-shopping-cart me-2"></i> Carousel Table
                         </a>
                     </li>
                 </ul>
             </li>
+
             <li>
                 <a href="#">
-                    <i class="fa fa-cogs fa-2x"></i>
-                    <span class="nav-text">
-                        Settings
-                    </span>
+                    <i class="fa fa-cogs"></i>
+                    <span class="nav-text">Settings</span>
                 </a>
             </li>
         </ul>
 
-        <ul class="logout">
+        <ul class="menu-footer">
             <li>
-                <a href="{{ route('logout') }}">
-                    <i class="fa fa-power-off fa-2x"></i>
-                    <span class="nav-text">
-                        Logout
-                    </span>
+                <a href="{{ route('logout') }}" class="logout-btn">
+                    <i class="fa fa-power-off"></i>
+                    <span class="nav-text">Logout</span>
                 </a>
             </li>
         </ul>
@@ -234,6 +304,59 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Toggle menu collapse
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mainMenu = document.querySelector('.main-menu');
+
+            menuToggle.addEventListener('click', function () {
+                mainMenu.classList.toggle('collapsed');
+            });
+
+            // Dropdown functionality
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const dropdownMenu = this.nextElementSibling;
+                    this.classList.toggle('active');
+                    dropdownMenu.classList.toggle('show');
+                });
+            });
+
+            // Set active menu item
+            const menuLinks = document.querySelectorAll('.menu-items li a');
+
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    menuLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // If this is a dropdown toggle, don't remove active class from parent
+                    if (!this.classList.contains('dropdown-toggle')) {
+                        const parentItem = this.closest('.dropdown-menu');
+                        if (parentItem) {
+                            parentItem.previousElementSibling.classList.add('active');
+                        }
+                    }
+                });
+            });
+
+            // Auto-collapse on mobile
+            function handleResize() {
+                if (window.innerWidth <= 768) {
+                    mainMenu.classList.add('collapsed');
+                } else {
+                    mainMenu.classList.remove('collapsed');
+                }
+            }
+
+            window.addEventListener('resize', handleResize);
+            handleResize(); // Initialize
+        });
+    </script>
 </body>
 
 </html>
