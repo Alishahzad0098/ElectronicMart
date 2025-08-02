@@ -20,7 +20,22 @@ class Usercontroller extends Controller
         if (Auth::check()) {
             if (auth()->user()->role === 'admin') {
                 $user = User::where('role', 'user')->get();
+
                 return view('authtable', compact('user'));
+            } else {
+                return redirect()->route('home');
+            }
+        } else {
+            return redirect()->route('loginpage');
+        }
+    }
+     public function admintable()
+    {
+        if (Auth::check()) {
+            if (auth()->user()->role === 'admin') {
+                $admin = User::where('role', 'admin')->get();
+
+                return view('admintable', compact('admin'));
             } else {
                 return redirect()->route('home');
             }
@@ -60,7 +75,7 @@ class Usercontroller extends Controller
     {
         if (Auth::check()) {
             if (auth()->user()->role === 'admin') {
-                return view('dashboard');
+                return view('layout.dashboard');
             } else {
                 return redirect()->route('home');
             }
@@ -68,11 +83,6 @@ class Usercontroller extends Controller
             return redirect()->route('loginpage');
         }
 
-    }
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->back();
     }
     public function loginpage()
     {
@@ -106,6 +116,18 @@ class Usercontroller extends Controller
 
         return redirect()->route('authtable');
     }
+    public function deleteuser($id)
+{
+    $user = User::find($id);
+
+    if ($user) {
+        $user->delete();
+    }
+
+    return redirect()->route('authtable')->with('success', 'User deleted successfully.');
+}
+
+
 
 }
 

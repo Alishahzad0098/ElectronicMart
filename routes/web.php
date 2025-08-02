@@ -39,8 +39,10 @@ Route::post('/logout', function () {
 })->name('logout');
 
 Route::get("/authtable", [Usercontroller::class, "table"])->name('authtable');
+Route::get("/admintable", [Usercontroller::class, "admintable"])->name('admintable');
 Route::get('/edituser/{id}', [Usercontroller::class, "edituser"])->name('edit.user');
 Route::post('/user/update/{id}', [UserController::class, 'update'])->name('update.user');
+Route::delete('/delete-user/{id}', [Usercontroller::class, 'deleteuser'])->name('delete.user');
 // 
 // 
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.to.cart');
@@ -49,7 +51,7 @@ Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.
 Route::post('/checkout', [OrderController::class, 'placeOrder'])->name('checkout');
 Route::get('/checkoutpage', [OrderController::class, 'show'])->name('checkoutpage');
 Route::get('/admin/ordertable', [OrderController::class, 'order'])->name('order.table');
-
+Route::get('/admin/orderitemtable', [OrderController::class, 'orderitem'])->name('orderitem.table');
 
 
 

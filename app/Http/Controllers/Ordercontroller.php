@@ -69,4 +69,8 @@ class Ordercontroller extends Controller
         $order = Order::all();
         return view('Ordertable',compact('order'));
     }
+    public function orderitem(){
+        $orderitem=Orderitem::all();
+        return view('orderitemstable',compact('orderitem'));
+    }
 }

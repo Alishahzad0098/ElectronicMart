@@ -4,9 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>@yield('title', 'Admin Panel')</title>
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Font Awesome & Google Fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
     <style>
         /* Font imports */
         @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
@@ -228,9 +236,12 @@
             }
         }
     </style>
+
+    @stack('styles')
 </head>
 
 <body>
+    <!-- Sidebar Navigation -->
     <nav class="main-menu">
         <div class="menu-header">
             <span class="menu-logo">Admin Panel</span>
@@ -263,12 +274,17 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('admintable') }}">
+                            <i class="fa fa-users me-2"></i> Admins Table
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('order.table') }}">
                             <i class="fa fa-shopping-cart me-2"></i> Orders Table
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('table.car') }}">
+                        <a href="{{ route('orderitem.table') }}">
                             <i class="fa fa-shopping-cart me-2"></i> Orders items Table
                         </a>
                     </li>
@@ -290,23 +306,30 @@
 
         <ul class="menu-footer">
             <li>
-                <a href="{{ route('logout') }}" class="logout-btn">
-                    <i class="fa fa-power-off"></i>
-                    <span class="nav-text">Logout</span>
-                </a>
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="logout-btn text-white"
+                        style="background: none; border: none; color: inherit; cursor: pointer; padding: 12px 20px; width: 100%; text-align: left;">
+                        <i class="fa fa-power-off"></i>
+                        <span class="nav-text">Logout</span>
+                    </button>
+                </form>
             </li>
         </ul>
     </nav>
-    <div class="container ms-5 ps-5 pt-5x ">
-        <h1>Welcome to Dashboard</h1>
-        <p>You are logged in as {{ Auth::user()->name }}</p>
+
+    <!-- Main Content -->
+    <div class="container ms-5 ps-5 pt-5">
+        @yield('content')
     </div>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-        <script>
+
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Toggle menu collapse
             const menuToggle = document.querySelector('.menu-toggle');
             const mainMenu = document.querySelector('.main-menu');
 
@@ -314,9 +337,7 @@
                 mainMenu.classList.toggle('collapsed');
             });
 
-            // Dropdown functionality
             const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-
             dropdownToggles.forEach(toggle => {
                 toggle.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -326,25 +347,6 @@
                 });
             });
 
-            // Set active menu item
-            const menuLinks = document.querySelectorAll('.menu-items li a');
-
-            menuLinks.forEach(link => {
-                link.addEventListener('click', function () {
-                    menuLinks.forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-
-                    // If this is a dropdown toggle, don't remove active class from parent
-                    if (!this.classList.contains('dropdown-toggle')) {
-                        const parentItem = this.closest('.dropdown-menu');
-                        if (parentItem) {
-                            parentItem.previousElementSibling.classList.add('active');
-                        }
-                    }
-                });
-            });
-
-            // Auto-collapse on mobile
             function handleResize() {
                 if (window.innerWidth <= 768) {
                     mainMenu.classList.add('collapsed');
@@ -354,9 +356,11 @@
             }
 
             window.addEventListener('resize', handleResize);
-            handleResize(); // Initialize
+            handleResize();
         });
     </script>
+
+    @stack('scripts')
 </body>
 
 </html>
