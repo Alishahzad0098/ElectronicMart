@@ -17,6 +17,9 @@ Route::get('/delete/{id}', [ProductController::class, 'delete'])->name('delete.p
 Route::get("/home", [ProductController::class, "show"])->name('home');
 Route::get('/product/{id}',[ProductController::class , "product"])->name('productshow');
 Route::get("/products", [ProductController::class, "productshow"])->name('products');
+Route::get('/search', [ProductController::class, 'search'])->name('search');
+Route::get('/about', [ProductController::class, 'about'])->name('about');
+
 
 
 Route::get("/carform", [CarouselController::class, "create"])->name('form.carousel');

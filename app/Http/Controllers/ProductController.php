@@ -101,4 +101,21 @@ class ProductController extends Controller
         $p4 = Products::where('categories', 'watches')->get();
         return view('Products', compact('product', 'p2', 'p3', 'p4'));
     }
+    public function search(Request $request)
+{
+    $query = $request->input('query');
+    
+    $products = Products::where('name', 'like', "%$query%")
+                ->orWhere('description', 'like', "%$query%")
+                ->orWhere('price', 'like',"%$query%")
+                ->paginate(10);
+    
+    return view('Searchitem', [
+        'products' => $products,
+        'query' => $query
+    ]);
+}
+public function about(){
+    return view('About');
+}
 }
