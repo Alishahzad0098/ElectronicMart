@@ -118,4 +118,7 @@ class ProductController extends Controller
 public function about(){
     return view('About');
 }
+public function contact(){
+    return view('Contact');
+}
 }

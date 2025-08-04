@@ -19,13 +19,12 @@ Route::get('/product/{id}',[ProductController::class , "product"])->name('produc
 Route::get("/products", [ProductController::class, "productshow"])->name('products');
 Route::get('/search', [ProductController::class, 'search'])->name('search');
 Route::get('/about', [ProductController::class, 'about'])->name('about');
-
+Route::get('/contact', [ProductController::class, 'contact'])->name('contact');
 
 
 Route::get("/carform", [CarouselController::class, "create"])->name('form.carousel');
 Route::get("/cartable", [CarouselController::class, "table"])->name("table.car");
 Route::post("/carstore", [CarouselController::class, "store"])->name("store.car");
-
 Route::get('/cardelete/{id}', [CarouselController::class, 'delete'])->name('delete.car');
 
 Route::get("/register", [Usercontroller::class, "view"])->name('view');

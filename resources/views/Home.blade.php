@@ -322,17 +322,17 @@
                     <div class="card mb-3 py-3" style="width: 30rem;">
                         <div class="row g-0">
                             <div class="col-md-4">
-                                <img src="asset/carousel/off1.png" class="img-fluid rounded-start" alt="...">
+                                <img src="asset/carousel/si1.png" class="img-fluid rounded-start" alt="...">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
                                     <p class="card-text">New Collection,New Trendy <br>
                                         <span style="font-weight: 800;">
-                                            <h1 style="font-weight: 800;">Smart Watches</h1>
+                                            <h1 style="font-weight: 800;">Mobile Phones</h1>
                                         </span>
-                                        Sale upto 25% OFF
+                                        Sale upto 35% OFF
                                     </p>
-                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins
+                                    <p class="card-text"><small class="text-body-secondary">Last updated 10 mins
                                             ago</small></p>
                                 </div>
                             </div>
