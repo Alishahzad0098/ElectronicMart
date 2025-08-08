@@ -93,14 +93,15 @@ class ProductController extends Controller
         return view('Singleproduct', compact('product'));
     }
 
-    public function productshow()
-    {
-        $product = Products::where('categories', 'computers')->get();
-        $p2 = Products::where('categories', 'mobiles-tablets')->get();
-        $p3 = Products::where('categories', 'headphones')->get();
-        $p4 = Products::where('categories', 'watches')->get();
-        return view('Products', compact('product', 'p2', 'p3', 'p4'));
-    }
+   public function productshow()
+{
+    $product = Products::where('categories', 'computers')->paginate(8, ['*'], 'computer_page');
+    $p2 = Products::where('categories', 'mobiles-tablets')->paginate(8, ['*'], 'mobile_page');
+    $p3 = Products::where('categories', 'headphones')->paginate(8, ['*'], 'headphone_page');
+    $p4 = Products::where('categories', 'watches')->paginate(8, ['*'], 'watch_page');
+
+    return view('Products', compact('product', 'p2', 'p3', 'p4'));
+}
     public function search(Request $request)
 {
     $query = $request->input('query');

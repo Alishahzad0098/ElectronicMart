@@ -291,8 +291,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js"
     integrity="sha512-6sSYJqDreZRZGkJ3b+YfdhB3MzmuP9R7X1QZ6g5aIXhRvR1Y/N/P47jmnkENm7YL3oqsmI6AK+V6AD99uWDnIw=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        
-    </script>
+        <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const activeTab = localStorage.getItem("activeTab");
+        if (activeTab) {
+            const tabTrigger = document.querySelector(`button[data-bs-target="${activeTab}"]`);
+            if (tabTrigger) {
+                new bootstrap.Tab(tabTrigger).show();
+            }
+        }
 
+        const tabButtons = document.querySelectorAll('button[data-bs-toggle="tab"]');
+        tabButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                localStorage.setItem("activeTab", btn.getAttribute("data-bs-target"));
+            });
+        });
+    });
+</script>
+<
 </html>

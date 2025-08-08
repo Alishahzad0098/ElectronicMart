@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Ordercontroller;
+use App\Http\Controllers\MailController;
 
 Route::get("/form", [ProductController::class, "create"])->name('form.product');
 Route::get("/table", [ProductController::class, "table"])->name("table.product");
@@ -55,6 +56,7 @@ Route::get('/checkoutpage', [OrderController::class, 'show'])->name('checkoutpag
 Route::get('/admin/ordertable', [OrderController::class, 'order'])->name('order.table');
 Route::get('/admin/orderitemtable', [OrderController::class, 'orderitem'])->name('orderitem.table');
 
-
+Route::get('/sendmail', [MailController::class, 'send'])->name('send.mail');  
+ 
 
 

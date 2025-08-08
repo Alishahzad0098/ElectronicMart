@@ -9,6 +9,8 @@ use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Mail\OrderConfirmation;
+use Illuminate\Support\Facades\Mail;
 
 class Ordercontroller extends Controller
 {
@@ -16,13 +18,10 @@ class Ordercontroller extends Controller
     {
         if (Auth::check()) {
             return view('Checkout');
-        }
-       else{
-        return  redirect()->route('loginpage');
-       } // Make sure the view file exists: resources/views/Checkout.blade.php
+        } else {
+            return redirect()->route('loginpage');
+        } // Make sure the view file exists: resources/views/Checkout.blade.php
     }
-
-
     public function placeOrder(Request $request)
     {
         $cart = session('cart');
@@ -43,34 +42,44 @@ class Ordercontroller extends Controller
             'number' => $request->input('number'),
             'customer_email' => $request->input('email'),
             'address' => $request->input('address'),
-            'payment' => $request->input('payment'), // ✅ Save payment method
+            'payment' => $request->input('payment'),
             'total_amount' => $total,
         ]);
 
         // Create order items
+        $orderItems = [];
         foreach ($cart as $item) {
-            OrderItem::create([
+            $orderItems[] = OrderItem::create([
                 'order_id' => $order->id,
                 'product_name' => $item['name'],
                 'price' => $item['price'],
                 'quantity' => $item['quantity'],
-                'images' => json_encode($item['images']), // if array, convert to JSON
+                'images' => json_encode($item['images']),
             ]);
-
-
         }
 
-        // Clear c art
+        // Send email confirmation
+        try {
+            Mail::to($request->input('email')) // Send to customer
+                ->cc('alishahzad9054933@gmail.com') // CC to admin
+                ->send(new OrderConfirmation($order, $orderItems));
+        } catch (\Exception $e) {
+            \Log::error('Email sending failed: ' . $e->getMessage());
+        }
+
+        // Clear cart
         session()->forget('cart');
 
         return redirect()->route('home')->with('success', 'Order placed successfully!');
     }
-    public function order(){
+    public function order()
+    {
         $order = Order::all();
-        return view('Ordertable',compact('order'));
+        return view('Ordertable', compact('order'));
     }
-    public function orderitem(){
-        $orderitem=Orderitem::all();
-        return view('orderitemstable',compact('orderitem'));
+    public function orderitem()
+    {
+        $orderitem = Orderitem::all();
+        return view('orderitemstable', compact('orderitem'));
     }
 }
