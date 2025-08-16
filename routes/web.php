@@ -14,13 +14,19 @@ use App\Http\Controllers\MailController;
 Route::get("/form", [ProductController::class, "create"])->name('form.product');
 Route::get("/table", [ProductController::class, "table"])->name("table.product");
 Route::post("/store", [ProductController::class, "store"])->name("store.product");
+Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('edit.product');
+Route::post('/update/{id}', [ProductController::class, 'update'])->name('update.product');
 Route::get('/delete/{id}', [ProductController::class, 'delete'])->name('delete.product');
-Route::get("/home", [ProductController::class, "show"])->name('home');
+Route::get("/", [ProductController::class, "show"])->name('home');
 Route::get('/product/{id}',[ProductController::class , "product"])->name('productshow');
 Route::get("/products", [ProductController::class, "productshow"])->name('products');
 Route::get('/search', [ProductController::class, 'search'])->name('search');
 Route::get('/about', [ProductController::class, 'about'])->name('about');
 Route::get('/contact', [ProductController::class, 'contact'])->name('contact');
+Route::get('/category', [ProductController::class, 'index'])->name('products.category');
+Route::get('/products/compare/{id}', [ProductController::class, 'compare'])->name('products.compare');
+
+
 
 
 Route::get("/carform", [CarouselController::class, "create"])->name('form.carousel');
@@ -55,8 +61,4 @@ Route::post('/checkout', [OrderController::class, 'placeOrder'])->name('checkout
 Route::get('/checkoutpage', [OrderController::class, 'show'])->name('checkoutpage');
 Route::get('/admin/ordertable', [OrderController::class, 'order'])->name('order.table');
 Route::get('/admin/orderitemtable', [OrderController::class, 'orderitem'])->name('orderitem.table');
-
-Route::get('/sendmail', [MailController::class, 'send'])->name('send.mail');  
- 
-
 

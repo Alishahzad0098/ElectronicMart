@@ -113,7 +113,6 @@
         <div class="footer">
             <p>If you have any questions about your order, please contact our customer service.</p>
             <p>Thank you for shopping with us!</p>
-            <a href="{{ route('home') }}" class="btn">Go To Home >>></a>
         </div>
     </div>
 </body>

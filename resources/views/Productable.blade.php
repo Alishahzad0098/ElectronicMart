@@ -14,6 +14,9 @@
                     <th>Category</th>
                     <th>Name</th>
                     <th>Price</th>
+                    <th>RAM</th>
+                    <th>Storage</th>
+                    <th>water_resistant</th>
                     <th>Description</th>
                     <th>Images</th>
                     <th>Actions</th>
@@ -26,6 +29,9 @@
                         <td>{{ $products->categories }}</td>
                         <td>{{ $products->name }}</td>
                         <td>${{ number_format($products->price, 2) }}</td>
+                        <td>{{ $products->ram }}GB</td>
+                         <td>{{ $products->storage }}GB</td>
+                         <td>{{ $products->water_resistant }}</td>
                         <td>{{ Str::limit($products->description, 50) }}</td>
                         @php
                             $images = is_array($products->images) ? $products->images : json_decode($products->images, true);
@@ -42,11 +48,12 @@
                             @endif
                         </td>
 
-                        <td>
+                        <td >
                             <a href="{{ route('delete.product', $products->id) }}" class="btn btn-danger btn-sm"
                                 onclick="return confirm('Are you sure you want to delete this product?')">
                                 Delete
                             </a>
+                            <a href="{{ route('edit.product',$products->id) }}" class="btn btn-warning btn-sm mt-2">Edit</a>
                         </td>
                     </tr>
                 @endforeach

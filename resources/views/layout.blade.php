@@ -97,16 +97,20 @@
                 <ul class="navbar-nav mb-2 mb-lg-0 align-items-center">
                     <li class="nav-item">
                         <div class="container ms-5">
-                            <select class="form-select text-white " aria-label="All categories"
-                                style="width: 200px; cursor: pointer; background-color:rgb(76, 76, 184) ;">
-                                <option selected>All categories</option>
-                                <option value="television">Television</option>
-                                <option value="headphone">Headphone</option>
-                                <option value="computers">Computers</option>
-                                <option value="appliances">Appliances</option>
-                                <option value="tv-video">TV & video</option>
-                                <option value="ipads-tablets">iPads & Tablets</option>
-                            </select>
+                            <form action="{{ route('products.category') }}" method="GET" id="categoryForm">
+                                <select name="categories" class="form-select text-white"
+                                    style="width: 200px; cursor: pointer; background-color:rgb(76, 76, 184);"
+                                    onchange="document.getElementById('categoryForm').submit();">
+                                    <option value="">All categories</option>
+                                    <option value="television" {{ request('categories') == 'television' ? 'selected' : '' }}>Television</option>
+                                    <option value="headphone" {{ request('categories') == 'headphone' ? 'selected' : '' }}>Headphone</option>
+                                    <option value="computers" {{ request('categories') == 'computers' ? 'selected' : '' }}>Computers</option>
+                                    <option value="appliances" {{ request('categories') == 'appliances' ? 'selected' : '' }}>Appliances</option>
+                                    <option value="tv-video" {{ request('categories') == 'tv-video' ? 'selected' : '' }}>
+                                        TV & video</option>
+                                    <option value="mobiles-tablets" {{ request('categories') == 'mobiles-tablets' ? 'selected' : '' }}>mobiles & Tablets</option>
+                                </select>
+                            </form>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -291,7 +295,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js"
     integrity="sha512-6sSYJqDreZRZGkJ3b+YfdhB3MzmuP9R7X1QZ6g5aIXhRvR1Y/N/P47jmnkENm7YL3oqsmI6AK+V6AD99uWDnIw=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script>
+<script>
     document.addEventListener("DOMContentLoaded", function () {
         const activeTab = localStorage.getItem("activeTab");
         if (activeTab) {
@@ -309,5 +313,4 @@
         });
     });
 </script>
-<
-</html>
+< </html>

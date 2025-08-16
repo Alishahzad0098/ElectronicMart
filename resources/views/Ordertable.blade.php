@@ -13,6 +13,7 @@
                     <th>Email</th>
                     <th>Address</th>
                     <th>Payment</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,6 +25,8 @@
                     <td>{{ $products->customer_email }}</td>
                     <td>{{ $products->address }}</td>
                     <td>{{ $products->total_amount }}</td>
+                    <td>
+                        <a href="{{ route('orderitem.table', $products->id) }}" class="btn btn-info btn-sm">View Items</a>
                 </tr>
                 @endforeach
             </tbody>
